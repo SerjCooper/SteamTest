@@ -1,0 +1,8 @@
+{
+  "configs" : {
+    "BROWSER_NAME": "chrome",
+    "TARGET_URL": "http://store.steampowered.com/",
+    "DRIVER_PATH": "./src/test/resources/",
+    "TIMEOUT_IMPLICITLY" : "10"
+  }
+}
