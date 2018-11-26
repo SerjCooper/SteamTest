@@ -15,12 +15,7 @@ public class SteamTest {
     public static void setup() {
         InitConfig configs = new InitConfig();
         System.setProperty("webdriver." + configs.BROWSER_NAME +".driver", configs.DRIVER_PATH);
-        if("ie".equalsIgnoreCase(configs.BROWSER_NAME))
-            driver = new InternetExplorerDriver();
-        else if("gecko".equalsIgnoreCase(configs.BROWSER_NAME))
-            driver = new FirefoxDriver();
-        else
-            driver = new ChromeDriver();
+        configs.getWebDriver(configs.BROWSER_NAME);
 
         driver.manage().window().maximize(); //передаю веб-драйверу набор методов, для того чтобы ход теста отображался в полностью открытом окне:
         driver.manage().timeouts().implicitlyWait(configs.TIMEOUT_IMPLICITLY, SECONDS); // неявное ожидание Implicit Wait, которое задается вначале теста и будет работать при каждом вызове метода поиска элемента:
