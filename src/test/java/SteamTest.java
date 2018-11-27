@@ -1,6 +1,7 @@
 import Pages.*;
 import Utils.InitConfig;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -10,10 +11,11 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class SteamTest {
 
     private static WebDriver driver;
+    private static InitConfig configs;
 
     @BeforeClass
     private static void setup() {
-        InitConfig configs = new InitConfig();
+        configs = new InitConfig();
         System.setProperty("webdriver." + configs.BROWSER_NAME +".driver", configs.DRIVER_PATH);
         driver = configs.getWebDriver(configs.BROWSER_NAME);
 
@@ -25,6 +27,7 @@ public class SteamTest {
     @Test
     private void firstTestCase() {
         HomePage homePage = new HomePage(driver);
+        //Assert.assertEquals(driver.getCurrentUrl(), configs.TARGET_URL);
         homePage.popupMenu.moveToPopupMenu();
         homePage.popupMenu.getPopupMenuItems();
     }

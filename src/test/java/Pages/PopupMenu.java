@@ -20,7 +20,7 @@ public class PopupMenu {
 
     public void moveToPopupMenu() {
         Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(genre_tab)).build().perform();
+        actions.moveToElement(driver.findElement(genre_tab)).perform();
     }
 
     public List<WebElement> getPopupMenuItems() {
