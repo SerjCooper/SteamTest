@@ -27,7 +27,7 @@ public class SteamTest {
     }
 
     @Test
-    private void firstTestCase() {
+    private void firstTestCase() throws InterruptedException {
         HomePage homePage = new HomePage(driver);
         if (!Locale.getDefault().getLanguage().equalsIgnoreCase(configs.LANGUAGE))          //Меняем язык на выбранный в конфиге, если системный язык и выбранный не совпадают
             homePage.changeLang(configs.LANGUAGE);
@@ -35,6 +35,10 @@ public class SteamTest {
         homePage.popupMenu.moveToPopupMenu();
         //homePage.popupMenu.getPopupMenuItems();
         homePage.popupMenu.getPopupMenuItem(configs.LANGUAGE).click();
+
+        GenrePage genrePage = new GenrePage(driver);
+        genrePage.topSallers.tabClick();
+        //genrePage.topSallers.getMaxDiscount(); пока не работает
     }
 
 
