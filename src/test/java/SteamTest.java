@@ -6,6 +6,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.Locale;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class SteamTest {
@@ -21,15 +23,18 @@ public class SteamTest {
 
         driver.manage().window().maximize(); //передаю веб-драйверу набор методов, для того чтобы ход теста отображался в полностью открытом окне:
         driver.manage().timeouts().implicitlyWait(configs.TIMEOUT_IMPLICITLY, SECONDS); // неявное ожидание Implicit Wait, которое задается вначале теста и будет работать при каждом вызове метода поиска элемента:
-        driver.get(configs.TARGET_URL + "?l=" + configs.LANGUAGE);
+        driver.get(configs.TARGET_URL);// + "?l=" + configs.LANGUAGE);
     }
 
     @Test
     private void firstTestCase() {
         HomePage homePage = new HomePage(driver);
-        //Assert.assertEquals(driver.getCurrentUrl(), configs.TARGET_URL);
+        if (!Locale.getDefault().getLanguage().equalsIgnoreCase(configs.LANGUAGE))          //Меняем язык на выбранный в конфиге, если системный язык и выбранный не совпадают
+            homePage.changeLang(configs.LANGUAGE);
+        Assert.assertTrue(homePage.getLogo_img().isDisplayed());
         homePage.popupMenu.moveToPopupMenu();
-        homePage.popupMenu.getPopupMenuItems();
+        //homePage.popupMenu.getPopupMenuItems();
+        homePage.popupMenu.getPopupMenuItem(configs.LANGUAGE).click();
     }
 
 
