@@ -27,18 +27,17 @@ public class SteamTest {
     }
 
     @Test
-    private void firstTestCase() throws InterruptedException {
+    private void firstTestCase() {
         HomePage homePage = new HomePage(driver);
         if (!Locale.getDefault().getLanguage().equalsIgnoreCase(configs.LANGUAGE))          //Меняем язык на выбранный в конфиге, если системный язык и выбранный не совпадают
             homePage.changeLang(configs.LANGUAGE);
         Assert.assertTrue(homePage.getLogo_img().isDisplayed());
         homePage.popupMenu.moveToPopupMenu();
-        //homePage.popupMenu.getPopupMenuItems();
         homePage.popupMenu.getPopupMenuItem(configs.LANGUAGE).click();
 
         GenrePage genrePage = new GenrePage(driver);
         genrePage.topSallers.tabClick();
-        //genrePage.topSallers.getMaxDiscount(); пока не работает
+        genrePage.topSallers.maxDiscountGameClick();
     }
 
 

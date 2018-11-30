@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,37 +12,49 @@ public class TopSallers {
 
     private static WebDriver driver;
 
+    private static By topSellersTab = By.xpath("//*[@id=\"tab_select_TopSellers\"]");
     private static By discount = By.className("discount_pct");
-    private static By topSallersTab = By.xpath("//*[@id=\"tab_select_TopSellers\"]");
-   // private static By maxDiscountGame = By.cssSelector("#NewReleasesRows > a:nth-child(3)")
+    private static By sellersRows = By.id("TopSellersRows");
+
+    private int maxDiscProc = -1;
+    private double maxDiscSum = -1;
 
     public TopSallers(WebDriver driver) {
         this.driver = driver;
     }
 
-    public int getMaxDiscount() throws InterruptedException {
-        Thread.sleep(3000);
-        List<WebElement> elementDiscounts = driver.findElements(discount);
-        List<String> discounts_str = null;
-        List<Integer> discounts = null;
+    private int getMaxDiscount() {
+        List<WebElement> elements;
+        List<Integer> el_int = new ArrayList<>();
 
-        for(WebElement d : elementDiscounts) {
-            discounts_str.add(d.getText().replace("-%", ""));
+        elements = driver.findElement(sellersRows).findElements(discount);
+        for(WebElement d : elements) {
+            el_int.add(Integer.parseInt(d.getText().replaceAll("\\D", "")));
         }
-        System.out.println(discounts_str);
-        for(String s : discounts_str) {
-            discounts.add(Integer.valueOf(s));
-        }
-        System.out.println(discounts);
-        System.out.println(Collections.max(discounts));
-        return Collections.max(discounts);
+        maxDiscProc = (Collections.max(el_int));
+        return maxDiscProc;
     }
 
     public void maxDiscountGameClick() {
-
+        getMaxDiscount();
+        driver.findElement(sellersRows)
+                .findElement(By.partialLinkText("-" + maxDiscProc + "%"))
+                .click();
     }
 
     public void tabClick() {
-        driver.findElement(topSallersTab).click();
+        driver.findElement(topSellersTab).click();
+    }
+
+    public void setDiscountProc(int discountProc) {
+        this.maxDiscProc = discountProc;
+    }
+
+    public double getDicountSum() {
+        return maxDiscSum;
+    }
+
+    public void setDicountSum(double dicountSum) {
+        this.maxDiscSum = dicountSum;
     }
 }
