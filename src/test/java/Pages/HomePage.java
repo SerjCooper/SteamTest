@@ -13,6 +13,8 @@ public class HomePage {
     private static By langMenu = By.xpath("//*[@id=\"language_pulldown\"]");
     private static By langRu = By.partialLinkText("Русский");
     private static By langEn = By.partialLinkText("English");
+    private static By downloadSteamLink = By.className("header_installsteam_btn_content");
+    private static By installSteamButton = By.id("about_install_steam_link");
 
     public HomePage(WebDriver driver){
         this.driver = driver;
@@ -33,6 +35,11 @@ public class HomePage {
 
     public WebElement getLogo_img() {
         return driver.findElement(logoImg);
+    }
+
+    public void downloadSteam() {
+        driver.findElement(downloadSteamLink).click();
+        driver.findElement(installSteamButton).click();
     }
 
 }

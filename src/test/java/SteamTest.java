@@ -55,7 +55,7 @@ public class SteamTest {
          //   Assert.assertEquals(gamePage.getFinalPrice(), fp);пока не работает
           //  Assert.assertEquals(gamePage.getDiscount(), md);пока не работает
         }
-
+        homePage.downloadSteam();
     }
 
 
