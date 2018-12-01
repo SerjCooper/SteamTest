@@ -21,8 +21,8 @@ public class SteamTest {
         System.setProperty("webdriver." + configs.BROWSER_NAME +".driver", configs.DRIVER_PATH);
         driver = configs.getWebDriver(configs.BROWSER_NAME);
 
-        driver.manage().window().maximize(); //передаю веб-драйверу набор методов, для того чтобы ход теста отображался в полностью открытом окне:
-        driver.manage().timeouts().implicitlyWait(configs.TIMEOUT_IMPLICITLY, SECONDS); // неявное ожидание Implicit Wait, которое задается вначале теста и будет работать при каждом вызове метода поиска элемента:
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(configs.TIMEOUT_IMPLICITLY, SECONDS);
         driver.get(configs.TARGET_URL);// + "?l=" + configs.LANGUAGE);
     }
 
@@ -38,6 +38,24 @@ public class SteamTest {
         GenrePage genrePage = new GenrePage(driver);
         genrePage.topSallers.tabClick();
         genrePage.topSallers.maxDiscountGameClick();
+
+      //  double fp = genrePage.topSallers.getFinalPrice(); пока не работает
+      //  int md = genrePage.topSallers.getMaxDiscount();пока не работает
+
+        if(driver.getCurrentUrl().contains("agecheck")) {                               //Если попадаем на страницу с проверкой возраста, то указываем валидный
+            AgeCheckPage ageCheckPage = new AgeCheckPage(driver);
+            ageCheckPage.selectValidAge();
+        }
+        if(driver.getCurrentUrl().contains("bundle")) {
+            BundlePage bundlePage = new BundlePage(driver);
+          //  Assert.assertEquals(bundlePage.getFinalPrice(), fp);пока не работает
+         //   Assert.assertEquals(bundlePage.getDiscount(), md);пока не работает
+        }else if(driver.getCurrentUrl().contains("app")) {
+            GamePage gamePage = new GamePage(driver);
+         //   Assert.assertEquals(gamePage.getFinalPrice(), fp);пока не работает
+          //  Assert.assertEquals(gamePage.getDiscount(), md);пока не работает
+        }
+
     }
 
 
