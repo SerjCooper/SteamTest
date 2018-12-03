@@ -20,6 +20,7 @@ public class InitConfig {
     public static String DRIVER_PATH;
     public static int TIMEOUT_IMPLICITLY;
     public static String LANGUAGE;
+    public static String DOWNLOAD_PATH;
 
     private static String CONFIG_PATH = "./src/test/resources/config.json";
     private static String POSTFIX_DRIVER = "driver.exe";
@@ -33,6 +34,7 @@ public class InitConfig {
         DRIVER_PATH = null;
         TIMEOUT_IMPLICITLY = 10;            //по умолчанию берём 10, если не задано другое
         LANGUAGE = Locale.getDefault().getLanguage();       //по умолчанию берём язык системы
+        DOWNLOAD_PATH = null;
 
         try {
             System.out.println("Читаем файл...");
@@ -45,6 +47,7 @@ public class InitConfig {
                 DRIVER_PATH = root.get("DRIVER_PATH").getAsString() + BROWSER_NAME + POSTFIX_DRIVER;
                 TIMEOUT_IMPLICITLY = root.get("TIMEOUT_IMPLICITLY").getAsInt();
                 LANGUAGE = root.get("LANGUAGE").getAsString();
+                DOWNLOAD_PATH = root.get("DOWNLOAD_PATH").getAsString();
                 break;
             }
         } catch (FileNotFoundException e) {

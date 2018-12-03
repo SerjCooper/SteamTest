@@ -1,4 +1,5 @@
 import Pages.*;
+import Utils.FileDownloader;
 import Utils.InitConfig;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
@@ -6,7 +7,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.Locale;
+import java.io.IOException;
+
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -14,6 +16,8 @@ public class SteamTest {
 
     private static WebDriver driver;
     private static InitConfig configs;
+
+    private static String steamSetupFile = "SteamSetup.exe";
 
     @BeforeClass
     private static void setup() {
@@ -27,7 +31,7 @@ public class SteamTest {
     }
 
     @Test
-    private void firstTestCase() {
+    private void firstTestCase() throws IOException {
         HomePage homePage = new HomePage(driver);
 
         Assert.assertTrue(homePage.getLogo_img().isDisplayed());
@@ -55,6 +59,7 @@ public class SteamTest {
           //  Assert.assertEquals(gamePage.getDiscount(), md);пока не работает
         }
         homePage.downloadSteam();
+        new FileDownloader().waitForFileDownload(configs.TIMEOUT_IMPLICITLY, steamSetupFile, configs.DOWNLOAD_PATH, driver);
     }
 
     /*@Test                                         чтобы не потерять смену языка через меню, закинул в тест
@@ -68,4 +73,5 @@ public class SteamTest {
     private static void tearDown() {
         driver.close();
     }
+
 }
