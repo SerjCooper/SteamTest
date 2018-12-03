@@ -5,7 +5,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -54,10 +56,15 @@ public class InitConfig {
 
     public static WebDriver getWebDriver(String browserName) {
         WebDriver driver;
-        if("gecko".equalsIgnoreCase(browserName))
-            driver = new FirefoxDriver();
-        else
-            driver = new ChromeDriver();
+        if("gecko".equalsIgnoreCase(browserName)) {
+            FirefoxOptions firefoxOptions = new FirefoxOptions();
+            firefoxOptions.addArguments("--lang=" + LANGUAGE);
+            driver = new FirefoxDriver(firefoxOptions);
+        }else{
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--lang=" + LANGUAGE);
+            driver = new ChromeDriver(chromeOptions);
+        }
         return driver;
     }
 }

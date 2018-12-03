@@ -23,14 +23,13 @@ public class SteamTest {
 
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(configs.TIMEOUT_IMPLICITLY, SECONDS);
-        driver.get(configs.TARGET_URL);// + "?l=" + configs.LANGUAGE);
+        driver.get(configs.TARGET_URL);
     }
 
     @Test
     private void firstTestCase() {
         HomePage homePage = new HomePage(driver);
-        if (!Locale.getDefault().getLanguage().equalsIgnoreCase(configs.LANGUAGE))          //Меняем язык на выбранный в конфиге, если системный язык и выбранный не совпадают
-            homePage.changeLang(configs.LANGUAGE);
+
         Assert.assertTrue(homePage.getLogo_img().isDisplayed());
         homePage.popupMenu.moveToPopupMenu();
         homePage.popupMenu.getPopupMenuItem(configs.LANGUAGE).click();
@@ -58,7 +57,12 @@ public class SteamTest {
         homePage.downloadSteam();
     }
 
-
+    /*@Test                                         чтобы не потерять смену языка через меню, закинул в тест
+    private void changeLangTest() {
+        HomePage homePage = new HomePage(driver);
+        homePage.changeLang(configs.LANGUAGE);
+        Assert.assertEquals();
+    }*/
 
     @AfterClass
     private static void tearDown() {
