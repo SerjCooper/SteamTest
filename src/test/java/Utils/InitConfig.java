@@ -11,6 +11,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class InitConfig {
@@ -66,8 +67,16 @@ public class InitConfig {
             profile.setPreference("browser.download.manager.alertOnEXEOpen", true);
             driver = new FirefoxDriver();
         }else{
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("profile.default_content_settings.popups", 0);
+            params.put("download.default_directory", DOWNLOAD_PATH);
+            params.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
+            params.put("download.prompt_for_download", false);
+            params.put("safebrowsing.disable_download_protection", true);
+            params.put("intl.accept_languages", LANGUAGE);
+            params.put("safebrowsing.enabled", "true");
             ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments("--lang=" + LANGUAGE, "--safebrowsing.enabled=true", "--disable-extensions", "--download.default_directory=" + DOWNLOAD_PATH);
+            chromeOptions.setExperimentalOption("prefs", params);
             driver = new ChromeDriver(chromeOptions);
         }
         return driver;
