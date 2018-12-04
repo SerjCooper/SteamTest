@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
 import java.io.FileNotFoundException;
@@ -65,10 +64,10 @@ public class InitConfig {
             profile.setPreference("intl.accept_languages", LANGUAGE);
             profile.setPreference("browser.download.dir", DOWNLOAD_PATH);
             profile.setPreference("browser.download.manager.alertOnEXEOpen", true);
-            driver = new FirefoxDriver(profile);
+            driver = new FirefoxDriver();
         }else{
             ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments("--lang=" + LANGUAGE, "--safebrowsing.enabled=true", "--disable-extensions");
+            chromeOptions.addArguments("--lang=" + LANGUAGE, "--safebrowsing.enabled=true", "--disable-extensions", "--download.default_directory=" + DOWNLOAD_PATH);
             driver = new ChromeDriver(chromeOptions);
         }
         return driver;
