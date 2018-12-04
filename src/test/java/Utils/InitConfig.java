@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -60,9 +61,11 @@ public class InitConfig {
     public static WebDriver getWebDriver(String browserName) {
         WebDriver driver;
         if("gecko".equalsIgnoreCase(browserName)) {
-            FirefoxOptions firefoxOptions = new FirefoxOptions();
-            firefoxOptions.addArguments("--lang=" + LANGUAGE);
-            driver = new FirefoxDriver(firefoxOptions);
+            FirefoxProfile profile = new FirefoxProfile();
+            profile.setPreference("intl.accept_languages", LANGUAGE);
+            profile.setPreference("browser.download.dir", DOWNLOAD_PATH);
+            profile.setPreference("browser.download.manager.alertOnEXEOpen", true);
+            driver = new FirefoxDriver(profile);
         }else{
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("--lang=" + LANGUAGE, "--safebrowsing.enabled=true", "--disable-extensions");

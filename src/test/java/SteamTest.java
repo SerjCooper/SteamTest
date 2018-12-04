@@ -61,7 +61,7 @@ public class SteamTest {
             new FileDownloader().waitForFileDownload(configs.TIMEOUT_IMPLICITLY, steamSetupFile, configs.DOWNLOAD_PATH, driver);
             File f = new File(configs.DOWNLOAD_PATH + "\\" + steamSetupFile);
             Assert.assertTrue(f.exists());
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
