@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class FileDownloader {
 
     public void waitForFileDownload(int totalTimeoutInSec, String expectedFileName, String downloadPath, WebDriver driver) throws IOException {
-        Files.deleteIfExists(Paths.get(expectedFileName)); //если такой файл есть - удаляем
+        Files.deleteIfExists(Paths.get(downloadPath + "\\" + expectedFileName)); //если такой файл есть - удаляем
         FluentWait<WebDriver> wait = new FluentWait(driver)
                 .withTimeout(totalTimeoutInSec, TimeUnit.SECONDS)
                 .pollingEvery(200, TimeUnit.MILLISECONDS);

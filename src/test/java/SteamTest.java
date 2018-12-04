@@ -1,4 +1,5 @@
 import Pages.*;
+import Utils.FileDownloader;
 import Utils.InitConfig;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
@@ -7,6 +8,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -38,12 +41,10 @@ public class SteamTest {
         homePage.popupMenu.getPopupMenuItem(configs.LANGUAGE).click();
 
         GenrePage genrePage = new GenrePage(driver);
-        genrePage.topSallers.tabClick();
-        int md = genrePage.topSallers.getMaxDiscount();
-        double fp = genrePage.topSallers.getFinalPrice();
-        genrePage.topSallers.maxDiscountGameClick();
-
-
+        genrePage.topSellers.tabClick();
+        int md = genrePage.topSellers.getMaxDiscount();
+        double fp = genrePage.topSellers.getFinalPrice();
+        genrePage.topSellers.maxDiscountGameClick();
 
         if(driver.getCurrentUrl().contains("agecheck")) {                               //Если попадаем на страницу с проверкой возраста, то указываем валидный
             AgeCheckPage ageCheckPage = new AgeCheckPage(driver);
@@ -62,15 +63,15 @@ public class SteamTest {
         new FileDownloader().waitForFileDownload(configs.TIMEOUT_IMPLICITLY, steamSetupFile, configs.DOWNLOAD_PATH, driver);
     }
 
-    /*@Test                                         чтобы не потерять смену языка через меню, закинул в тест
     private void changeLangTest() {
         HomePage homePage = new HomePage(driver);
         homePage.changeLang(configs.LANGUAGE);
-        Assert.assertEquals();
-    }*/
+
+    }
 
     @AfterClass
-    private static void tearDown() {
+    private static void tearDown() throws IOException {
+        Files.deleteIfExists(Paths.get(configs.DOWNLOAD_PATH + "\\" + steamSetupFile)); //если такой файл есть - удаляем
         driver.close();
     }
 }

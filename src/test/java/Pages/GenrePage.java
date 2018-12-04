@@ -1,21 +1,20 @@
 package Pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class GenrePage {
 
     private WebDriver driver;
 
-    public TopSallers topSallers;
+    public TopSellers topSellers;
 
 
     public GenrePage(WebDriver driver) {
         this.driver = driver;
-        this.topSallers = getTopSallers();
+        this.topSellers = getTopSellers();
     }
 
-    public TopSallers getTopSallers() {
-        return new TopSallers(driver);
+    public TopSellers getTopSellers() {
+        return new TopSellers(driver);
     }
 }

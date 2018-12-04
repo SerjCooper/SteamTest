@@ -65,7 +65,7 @@ public class InitConfig {
             driver = new FirefoxDriver(firefoxOptions);
         }else{
             ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments("--lang=" + LANGUAGE);
+            chromeOptions.addArguments("--lang=" + LANGUAGE, "--safebrowsing.enabled=true", "--disable-extensions");
             driver = new ChromeDriver(chromeOptions);
         }
         return driver;
