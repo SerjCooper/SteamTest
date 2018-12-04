@@ -6,12 +6,10 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class SteamTest {
@@ -26,14 +24,13 @@ public class SteamTest {
         configs = new InitConfig();
         System.setProperty("webdriver." + configs.BROWSER_NAME +".driver", configs.DRIVER_PATH);
         driver = configs.getWebDriver(configs.BROWSER_NAME);
-
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(configs.TIMEOUT_IMPLICITLY, SECONDS);
         driver.get(configs.TARGET_URL);
     }
 
     @Test
-    private void firstTestCase() throws IOException {
+    private void firstTestCase() {
         HomePage homePage = new HomePage(driver);
 
         Assert.assertTrue(homePage.getLogo_img().isDisplayed());
@@ -60,13 +57,18 @@ public class SteamTest {
             Assert.assertEquals(gamePage.getDiscount(), md);
         }
         homePage.downloadSteam();
-        new FileDownloader().waitForFileDownload(configs.TIMEOUT_IMPLICITLY, steamSetupFile, configs.DOWNLOAD_PATH, driver);
+        try {
+            new FileDownloader().waitForFileDownload(configs.TIMEOUT_IMPLICITLY, steamSetupFile, configs.DOWNLOAD_PATH, driver);
+            File f = new File(configs.DOWNLOAD_PATH + "\\" + steamSetupFile);
+            Assert.assertTrue(f.exists());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void changeLangTest() {
         HomePage homePage = new HomePage(driver);
         homePage.changeLang(configs.LANGUAGE);
-
     }
 
     @AfterClass

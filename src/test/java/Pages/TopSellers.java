@@ -16,6 +16,7 @@ public class TopSellers {
     private static By discount = By.className("discount_pct");
     private static By finalPrice = By.className("discount_final_price");
     private static By sellersRows = By.xpath("//*[@id=\"TopSellersRows\"]");
+    private static By priceBlock = By.xpath("//body[contains(@class,'v6 tag_page game_bg contenthub_page responsive_page')]/div[contains(@class,'responsive_page_frame with_header')]/div[contains(@class,'responsive_page_content')]/div[contains(@class,'responsive_page_template_content')]/div[contains(@class,'contenthub_page_background')]/div[contains(@class,'page_contenthub_content')]/div[contains(@class,'page_content_ctn')]/div[contains(@class,'page_content')]/div[contains(@class,'leftcol sub')]/div[contains(@class,'tabarea')]/div[contains(@class,'tab_content_ctn sub')]/div[@id='tab_content_TopSellers']/div[@id='TopSellersTable']/div[@id='TopSellersRows']/a/div[@class='discount_block tab_item_discount']");
 
     private int maxDiscProc = -1;
     private double maxDiscSum = -1;
@@ -47,9 +48,7 @@ public class TopSellers {
     }
 
     public double getFinalPrice() {
-        List<WebElement> elements = driver
-                .findElements(By
-                        .xpath("//body[contains(@class,'v6 tag_page game_bg contenthub_page responsive_page')]/div[contains(@class,'responsive_page_frame with_header')]/div[contains(@class,'responsive_page_content')]/div[contains(@class,'responsive_page_template_content')]/div[contains(@class,'contenthub_page_background')]/div[contains(@class,'page_contenthub_content')]/div[contains(@class,'page_content_ctn')]/div[contains(@class,'page_content')]/div[contains(@class,'leftcol sub')]/div[contains(@class,'tabarea')]/div[contains(@class,'tab_content_ctn sub')]/div[@id='tab_content_TopSellers']/div[@id='TopSellersTable']/div[@id='TopSellersRows']/a/div[@class='discount_block tab_item_discount']"));
+        List<WebElement> elements = driver.findElements(priceBlock);
         WebElement divWithMaxDisc = null;
         try {
             for (WebElement d : elements) {
@@ -62,14 +61,11 @@ public class TopSellers {
         }catch (org.openqa.selenium.NoSuchElementException e) {
 
         }
-        return Double
+        maxDiscSum = Double
                 .parseDouble(divWithMaxDisc
                         .getText()
                         .replaceAll("[^0-9,.]+.", "")
                         .replace(",", "."));  //отрезаем от цены валюту (руб.) и возвращаем стоимость со скидкой
-    }
-
-    public double getMaxDiscSum() {
         return maxDiscSum;
     }
 }
