@@ -1,5 +1,4 @@
 import Pages.*;
-import Utils.FileDownloader;
 import Utils.InitConfig;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
@@ -40,10 +39,11 @@ public class SteamTest {
 
         GenrePage genrePage = new GenrePage(driver);
         genrePage.topSallers.tabClick();
+        int md = genrePage.topSallers.getMaxDiscount();
+        double fp = genrePage.topSallers.getFinalPrice();
         genrePage.topSallers.maxDiscountGameClick();
 
-      //  double fp = genrePage.topSallers.getFinalPrice(); пока не работает
-      //  int md = genrePage.topSallers.getMaxDiscount();пока не работает
+
 
         if(driver.getCurrentUrl().contains("agecheck")) {                               //Если попадаем на страницу с проверкой возраста, то указываем валидный
             AgeCheckPage ageCheckPage = new AgeCheckPage(driver);
@@ -51,12 +51,12 @@ public class SteamTest {
         }
         if(driver.getCurrentUrl().contains("bundle")) {
             BundlePage bundlePage = new BundlePage(driver);
-          //  Assert.assertEquals(bundlePage.getFinalPrice(), fp);пока не работает
-         //   Assert.assertEquals(bundlePage.getDiscount(), md);пока не работает
+            Assert.assertEquals(bundlePage.getFinalPrice(), fp);
+            Assert.assertEquals(bundlePage.getDiscount(), md);
         }else if(driver.getCurrentUrl().contains("app")) {
             GamePage gamePage = new GamePage(driver);
-         //   Assert.assertEquals(gamePage.getFinalPrice(), fp);пока не работает
-          //  Assert.assertEquals(gamePage.getDiscount(), md);пока не работает
+            Assert.assertEquals(gamePage.getFinalPrice(), fp);
+            Assert.assertEquals(gamePage.getDiscount(), md);
         }
         homePage.downloadSteam();
         new FileDownloader().waitForFileDownload(configs.TIMEOUT_IMPLICITLY, steamSetupFile, configs.DOWNLOAD_PATH, driver);
@@ -73,5 +73,4 @@ public class SteamTest {
     private static void tearDown() {
         driver.close();
     }
-
 }

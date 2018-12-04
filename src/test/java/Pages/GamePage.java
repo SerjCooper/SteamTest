@@ -9,26 +9,32 @@ public class GamePage {
 
     private static By discount = By.className("discount_pct");
     private static By finalPrice = By.className("discount_final_price");
-    private static By bundleArea = By.xpath("//*[@id=\"game_area_purchase\"]/div[1]/div");
+    private String areaPurchase_div = "//*[@id=\"game_area_purchase\"]/div[%s]/div" ;
+    private By areaPurchase;
+    private static By noticeBox = By.className("notice_box_content");
 
     public GamePage(WebDriver driver) {
         this.driver = driver;
+        if(driver.findElement(noticeBox).isDisplayed())                     //Данный блок сделан для обхода сообщения о покупке в текущем регионе
+            areaPurchase = By.xpath(areaPurchase_div.replace("%s", "2"));
+        else
+            areaPurchase = By.xpath(areaPurchase_div.replace("%s", "1"));
     }
 
-    public static int getDiscount() {
+    public int getDiscount() {
         int discountProc = Integer
                 .parseInt(driver
-                        .findElement(bundleArea)
+                        .findElement(areaPurchase)
                         .findElement(discount)
                         .getText()
                         .replaceAll("\\D", ""));
         return discountProc;
     }
 
-    public static double getFinalPrice() {
+    public double getFinalPrice() {
         return Double
                 .parseDouble(driver
-                        .findElement(bundleArea)
+                        .findElement(areaPurchase)
                         .findElement(finalPrice)
                         .getText()
                         .replaceAll("[^0-9,.]+.", "")
